@@ -117,6 +117,20 @@ func main() {
 			protected.PATCH("/medicine", controller.UpdateMedicine)
 			protected.DELETE("/medicine/:id", controller.DeleteMedicine)
 
+			//Company Routes
+			protected.GET("/medicine", controller.ListCompany)
+			protected.GET("/medicine/:id", controller.GetCompany)
+			protected.POST("/medicine", controller.CreateCompany)
+			protected.PATCH("/medicine", controller.UpdateCompany)
+			protected.DELETE("/medicine/:id", controller.DeleteCompany)
+
+			//Order Routes
+			protected.GET("/medicine", controller.ListOrder)
+			protected.GET("/medicine/:id", controller.GetOrder)
+			protected.POST("/medicine", controller.CreateOrder)
+			protected.PATCH("/medicine", controller.UpdateOrder)
+			protected.DELETE("/medicine/:id", controller.DeleteOrder)
+
 		}
 	}
 
