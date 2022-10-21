@@ -28,7 +28,7 @@ func CreateCompany(c *gin.Context) {
 func GetCompany(c *gin.Context) {
 	var MedicineCompany entity.MedicineCompany
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM medicine_types WHERE id = ?", id).Scan(&MedicineCompany).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM medicine_company WHERE id = ?", id).Scan(&MedicineCompany).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -39,7 +39,7 @@ func GetCompany(c *gin.Context) {
 // GET /company
 func ListCompany(c *gin.Context) {
 	var MedicineCompany []entity.MedicineCompany
-	if err := entity.DB().Raw("SELECT * FROM medicine_types").Scan(&MedicineCompany).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM medicine_company").Scan(&MedicineCompany).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -50,8 +50,8 @@ func ListCompany(c *gin.Context) {
 // DELETE /company/:id
 func DeleteCompany(c *gin.Context) {
 	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM medicine_types WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "MedicineType not found"})
+	if tx := entity.DB().Exec("DELETE FROM medicine_company WHERE id = ?", id); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "MedicineCompany not found"})
 		return
 	}
 
@@ -133,7 +133,7 @@ func CreateOrder(c *gin.Context) {
 func GetOrder(c *gin.Context) {
 	var order entity.MedicineOrder
 	id := c.Param("id")
-	if err := entity.DB().Preload("Employee").Preload("Medicine").Preload("Company").Raw("SELECT * FROM medicines WHERE id = ?", id).Find(&order).Error; err != nil {
+	if err := entity.DB().Preload("Employee").Preload("Medicine").Preload("Company").Raw("SELECT * FROM order WHERE id = ?", id).Find(&order).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -143,7 +143,7 @@ func GetOrder(c *gin.Context) {
 // GET /order
 func ListOrder(c *gin.Context) {
 	var order []entity.MedicineOrder
-	if err := entity.DB().Preload("Employee").Preload("Medicine").Preload("Company").Raw("SELECT * FROM medicines").Find(&order).Error; err != nil {
+	if err := entity.DB().Preload("Employee").Preload("Medicine").Preload("Company").Raw("SELECT * FROM order").Find(&order).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -154,7 +154,7 @@ func ListOrder(c *gin.Context) {
 // DELETE /order/:id
 func DeleteOrder(c *gin.Context) {
 	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM medicines WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM order WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "order not found"})
 		return
 	}
