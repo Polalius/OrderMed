@@ -118,28 +118,28 @@ func main() {
 			protected.DELETE("/medicine/:id", controller.DeleteMedicine)
 
 			//Company Routes
-			protected.GET("/medicine", controller.ListCompany)
-			protected.GET("/medicine/:id", controller.GetCompany)
-			protected.POST("/medicine", controller.CreateCompany)
-			protected.PATCH("/medicine", controller.UpdateCompany)
-			protected.DELETE("/medicine/:id", controller.DeleteCompany)
+			protected.GET("/company", controller.ListCompany)
+			protected.GET("/company/:id", controller.GetCompany)
+			protected.POST("/company", controller.CreateCompany)
+			protected.PATCH("/company", controller.UpdateCompany)
+			protected.DELETE("/company/:id", controller.DeleteCompany)
 
 			//Order Routes
-			protected.GET("/medicine", controller.ListOrder)
-			protected.GET("/medicine/:id", controller.GetOrder)
-			protected.POST("/medicine", controller.CreateOrder)
-			protected.PATCH("/medicine", controller.UpdateOrder)
-			protected.DELETE("/medicine/:id", controller.DeleteOrder)
+			protected.GET("/medicineorder", controller.ListOrder)
+			protected.GET("/medicineorder/:id", controller.GetOrder)
+			protected.POST("/medicineorder", controller.CreateOrder)
+			protected.PATCH("/medicineorder", controller.UpdateOrder)
+			protected.DELETE("/medicineorder/:id", controller.DeleteOrder)
 
 		}
 	}
 
 	//pharmacist (roleName pharmacist)
-	pharmacistApi := r.Group("/phamacist")
+	pharmacistApi := r.Group("/pharmacist")
 	{
 		protected := pharmacistApi.Use(middlewares.AuthorizedPharmacist())
 		{
-			//เพชร พี่แบม และพี่แบม เพิ่ม API ตรงส่วนนี้ ในกรณีเรียกใช้ ให้เรียกใช้จาก /phamacist/(...Route)
+			//เพชร พี่แบม และพี่แบม เพิ่ม API ตรงส่วนนี้ ในกรณีเรียกใช้ ให้เรียกใช้จาก /pharmacist/(...Route)
 
 			//------------------------------ Part Petch ------------------------------
 			protected.GET("/employee/:id", controller.GetEmployee)
@@ -173,16 +173,29 @@ func main() {
 			protected.PATCH("/paymedicines", controller.UpdatePayMedicine)
 			protected.DELETE("/paymedicines/:id", controller.DeletePayMedicine)
 
+			//medicine
+			protected.GET("/medicines", controller.ListMedicine)
+			protected.GET("/medicine/:id", controller.GetMedicine)
+			protected.POST("/medicine", controller.CreateMedicine)
+			protected.PATCH("/medicine", controller.UpdateMedicine)
+			protected.DELETE("/medicine/:id", controller.DeleteMedicine)
+
 		}
 	}
 
 	//payment (roleName payment)
 	paymentApi := r.Group("/payment")
 	{
-		protected := paymentApi.Use(middlewares.AuthorizedPharmacist())
+		protected := paymentApi.Use(middlewares.AuthorizedPayment())
 		{
 			//พี่ก็อต เพิ่ม API ตรงส่วนนี้ ในกรณีเรียกใช้ ให้เรียกใช้จาก /payment/(...Route)
+			protected.GET("/employees", controller.ListEmployee)
 			protected.GET("/employee/:id", controller.GetEmployee)
+
+			protected.GET("/receipts", controller.ListReceipts)
+			protected.GET("/receipts/:id", controller.GetReceipts)
+			protected.POST("/receipts", controller.CreateReceipts)
+			protected.DELETE("/receipts/:id", controller.DeleteReceipts)
 
 		}
 	}
